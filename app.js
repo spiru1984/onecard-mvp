@@ -1,5 +1,5 @@
 'use strict';
-const storageKey = 'onecard-cards-v1';
+let storageKey = 'onecard-cards-v1';
 const $ = s => document.querySelector(s);
 const form = $('#card-form'), cardDialog = $('#card-dialog'), barcodeDialog = $('#barcode-dialog'), scanDialog = $('#scan-dialog');
 // ZXing BarcodeFormat values. Store both the exact payload and its symbology.
@@ -14,16 +14,18 @@ let selectedId = null, cameraStream = null, scanTimer = null, scanSession = 0, s
 function message(text) { $('#app-status').textContent = text; }
 function loadCards() {
  try {
-  const stored = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  const raw = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  const stored = Array.isArray(raw) ? raw : raw.cards;
   if (!Array.isArray(stored) || stored.some(c => !c || typeof c.id !== 'string' || typeof c.store !== 'string' || typeof c.number !== 'string')) throw Error('Invalid storage');
   items = stored;
  } catch (_) { storageHealthy = false; message('Nie można odczytać zapisanych kart. Dane pozostają nietknięte. Sprawdź ustawienia pamięci przeglądarki.'); }
 }
 function saveCards(next) {
  if (!storageHealthy) throw Error('Pamięć kart jest niedostępna. Nie nadpisano danych.');
- try { localStorage.setItem(storageKey, JSON.stringify(next)); }
+ try { if (window.onecardPersist) window.onecardPersist(next); else localStorage.setItem(storageKey, JSON.stringify(next)); }
  catch (_) { throw Error('Nie udało się zapisać karty. Zwolnij miejsce lub zezwól na zapis danych w przeglądarce.'); }
  items = next;
+ window.dispatchEvent(new Event('onecard-saved'));
 }
 function render() {
  $('#empty-state').hidden = items.length !== 0; $('#card-list').replaceChildren();
@@ -115,5 +117,10 @@ $('#delete-card').onclick = () => {
 window.addEventListener('storage',event => { if (event.key === storageKey) { storageHealthy = true; loadCards(); render(); barcodeDialog.close(); } });
 loadCards(); render();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').then(() => navigator.serviceWorker.ready).then(() => {
- if (storageHealthy) message('Gotowe offline — karty pozostają na tym urządzeniu.');
+ if (storageHealthy && storageKey === 'onecard-cards-v1') message('Gotowe offline — karty pozostają na tym urządzeniu.');
 }).catch(() => message('Karty zapisują się lokalnie, ale przygotowanie aplikacji offline nie powiodło się. Otwórz ją ponownie z internetem.'));
+
+function switchCardProfile(key) {
+ stopScanner(); scanDialog.close(); cardDialog.close(); barcodeDialog.close();
+ storageKey = key; items = []; storageHealthy = true; loadCards(); render();
+}

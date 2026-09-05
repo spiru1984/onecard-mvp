@@ -9,12 +9,16 @@
     <link rel="stylesheet" href="style.css" />
     <script defer src="zxing-browser-0.1.5.min.js"></script>
     <script defer src="bwip-js-4.7.0.min.js"></script>
+    <script defer src="config.js"></script>
+    <script defer src="supabase-2.115.0.js"></script>
     <script defer src="app.js"></script>
+    <script defer src="import.js"></script>
+    <script defer src="account.js"></script>
   </head>
   <body>
     <main class="app-shell">
       <header>
-        <p class="eyebrow">TWÓJ PORTFEL LOJALNOŚCIOWY</p>
+        <div class="account-row"><p class="eyebrow">TWÓJ PORTFEL LOJALNOŚCIOWY</p><button id="account-button" class="scan-button">Konto</button></div>
         <div class="heading-row">
           <div>
             <h1>ONECARD</h1>
@@ -23,6 +27,9 @@
           <div class="header-actions"><button id="scan-card" class="scan-button">⌁ Skanuj</button><button id="add-card" class="round-button" aria-label="Dodaj kartę">+</button></div>
         </div>
       </header>
+      <div class="import-actions"><button id="import-card" class="secondary-button">Importuj zdjęcie / zrzut ekranu</button><input id="card-photo" type="file" accept="image/*" hidden /></div>
+      <p class="hint">Z innej aplikacji: otwórz kartę, zrób zrzut ekranu i wybierz go tutaj. Zdjęcie odczytujemy wyłącznie na tym urządzeniu.</p>
+      <p id="import-status" class="hint" role="status"></p>
 
       <section id="empty-state" class="empty-state">
         <div class="empty-icon">▥</div>
@@ -43,6 +50,7 @@
         <label>Format kodu<select id="card-format" name="card-format"></select></label>
         <label>Kolor karty<input id="card-color" name="card-color" type="color" value="#276749" /></label>
         <p class="hint">Skanowanie rozpoznaje format automatycznie. Przy ręcznym dodawaniu wybierz format z oryginalnej karty.</p>
+        <p class="hint">Import przenosi kod karty. Kupony, punkty i kody zmieniające się w czasie obsługuje aplikacja sklepu.</p>
         <p id="form-error" class="error" role="alert"></p>
         <div class="form-actions"><button type="button" id="cancel" class="secondary-button">Anuluj</button><button class="primary-button" value="default">Zapisz kartę</button></div>
       </form>
@@ -64,6 +72,33 @@
         <p id="scanner-status" class="hint">Zezwól na użycie aparatu, a następnie ustaw kod kreskowy w ramce.</p>
         <div class="camera-frame"><video id="camera" autoplay playsinline muted></video><div class="scan-line"></div></div>
         <button type="button" id="manual-from-scanner" class="secondary-button full-button">Wpiszę numer ręcznie</button>
+      </div>
+    </dialog>
+  <dialog id="account-dialog" aria-labelledby="account-heading">
+      <div class="account-view">
+        <div class="dialog-title"><h2 id="account-heading">Twoje konto ONECARD</h2><button type="button" id="close-account" class="icon-button" aria-label="Zamknij konto">×</button></div>
+        <p id="account-unavailable" class="hint" hidden>Logowanie e-mailem i SMS-em jest przygotowane, ale jeszcze nieuruchomione. Na razie korzystaj z kart i importu na tym urządzeniu.</p>
+        <form id="account-login">
+          <p class="hint">Zaloguj się lub utwórz konto kodem z wiadomości. Karty zapisane na koncie będą synchronizowane między urządzeniami.</p>
+          <label>Sposób logowania<select id="login-method"><option value="email">E-mail</option><option value="sms">SMS</option></select></label>
+          <label>E-mail lub numer telefonu<input id="login-contact" type="email" autocomplete="email" placeholder="twoj@email.pl" required maxlength="254" /></label>
+          <p class="hint">Kontakt zostanie przekazany do usługi logowania Supabase, a przy SMS także do Twilio, aby dostarczyć kod. Zdjęcia kart pozostają na telefonie.</p>
+          <button id="send-login-code" class="primary-button full-button" type="submit">Wyślij kod</button>
+        </form>
+        <form id="account-code-form" hidden>
+          <label>Kod z wiadomości<input id="login-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" minlength="6" maxlength="10" required /></label>
+          <button id="verify-login-code" class="primary-button full-button" type="submit">Potwierdź kod</button>
+        </form>
+        <div id="account-signed-in" hidden>
+          <p id="account-identity" class="hint"></p>
+          <button id="sync-cards" class="primary-button full-button">Synchronizuj karty</button>
+          <p class="hint">Karty dodawane po zalogowaniu zapisujemy na Twoim koncie i na tym urządzeniu. Karty z trybu lokalnego możesz skopiować poniżej.</p>
+          <button id="import-local-cards" class="secondary-button full-button">Skopiuj lokalne karty na konto</button>
+          <button id="link-identity" class="secondary-button full-button">Dodaj drugi sposób logowania</button>
+          <p class="hint">Dodaj drugi sposób logowania tutaj, aby telefon i e-mail otwierały to samo konto. Karty pozostają w pamięci urządzenia po wylogowaniu; wrócą po ponownym zalogowaniu na to samo konto.</p>
+          <button id="sign-out" class="secondary-button full-button">Wyloguj</button>
+        </div>
+        <p id="account-status" class="hint" role="status"></p>
       </div>
     </dialog>
   </body>

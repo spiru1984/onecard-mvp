@@ -1,2 +1,9 @@
-{"private":true,"scripts":{"test":"node acceptance.test.cjs"},"devDependencies":{"playwright":"1.62.1"}}
-
+{
+  "private": true,
+  "scripts": {
+    "test": "node acceptance.test.cjs && node import-account.test.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
