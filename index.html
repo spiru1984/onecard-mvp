@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#163d2a" />
+    <title>ONECARD</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header>
+        <p class="eyebrow">TWÓJ PORTFEL LOJALNOŚCIOWY</p>
+        <div class="heading-row">
+          <div>
+            <h1>ONECARD</h1>
+            <p id="card-count" class="muted">Jeszcze nie masz żadnych kart</p>
+          </div>
+          <div class="header-actions"><button id="scan-card" class="scan-button">⌁ Skanuj</button><button id="add-card" class="round-button" aria-label="Dodaj kartę">+</button></div>
+        </div>
+      </header>
+
+      <section id="empty-state" class="empty-state">
+        <div class="empty-icon">▥</div>
+        <h2>Wszystkie karty w jednym miejscu</h2>
+        <p>Dodaj pierwszą kartę lojalnościową. Jej dane zostaną zapisane tylko w tej przeglądarce.</p>
+        <button id="add-first-card" class="primary-button">Dodaj pierwszą kartę</button>
+      </section>
+
+      <section id="card-list" class="card-list" aria-label="Twoje karty"></section>
+    </main>
+
+    <dialog id="card-dialog">
+      <form id="card-form" method="dialog">
+        <div class="dialog-title"><h2 id="dialog-heading">Dodaj kartę</h2><button type="button" class="icon-button" id="close-dialog" aria-label="Zamknij">×</button></div>
+        <label>Nazwa sklepu<input id="store-name" name="store-name" required maxlength="40" placeholder="np. Rossmann" /></label>
+        <label>Numer karty<input id="card-number" name="card-number" required maxlength="60" placeholder="np. 5901234123457" inputmode="numeric" /></label>
+        <label>Kolor karty<input id="card-color" name="card-color" type="color" value="#276749" /></label>
+        <p class="hint">Wersja MVP tworzy kod Code 128. Zeskanowanie zależy od tego, jaki format obsługuje program danego sklepu.</p>
+        <div class="form-actions"><button type="button" id="cancel" class="secondary-button">Anuluj</button><button class="primary-button" value="default">Zapisz kartę</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="barcode-dialog">
+      <div class="barcode-view">
+        <div class="dialog-title"><div><p id="barcode-store" class="eyebrow"></p><h2>Twoja karta</h2></div><button type="button" class="icon-button" id="close-barcode" aria-label="Zamknij">×</button></div>
+        <div class="barcode-paper"><svg id="barcode"></svg></div>
+        <p id="barcode-number" class="barcode-number"></p>
+        <button id="delete-card" class="danger-button">Usuń tę kartę</button>
+      </div>
+    </dialog>
+
+    <dialog id="scan-dialog">
+      <div class="scanner-view">
+        <div class="dialog-title"><div><p class="eyebrow">DODAWANIE KARTY</p><h2>Zeskanuj kod</h2></div><button type="button" class="icon-button" id="close-scanner" aria-label="Zamknij">×</button></div>
+        <p id="scanner-status" class="hint">Zezwól na użycie aparatu, a następnie ustaw kod kreskowy w ramce.</p>
+        <div class="camera-frame"><video id="camera" autoplay playsinline muted></video><div class="scan-line"></div></div>
+        <button type="button" id="manual-from-scanner" class="secondary-button full-button">Wpiszę numer ręcznie</button>
+      </div>
+    </dialog>
+  </body>
+</html>

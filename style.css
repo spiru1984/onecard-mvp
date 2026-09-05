@@ -1,0 +1,25 @@
+:root { font-family: Inter, system-ui, sans-serif; color: #14251c; background: #f4f7f3; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; }
+button, input { font: inherit; }
+button { cursor: pointer; border: 0; }
+.app-shell { width: min(100%, 620px); padding: 40px 22px 70px; margin: auto; }
+.eyebrow { color: #52705f; font-size: .72rem; font-weight: 800; letter-spacing: .1em; margin: 0 0 7px; }
+h1 { margin: 0; font-size: 2.25rem; letter-spacing: -.07em; }
+h2 { margin: 0; font-size: 1.25rem; letter-spacing: -.03em; }
+.muted { color: #637168; margin: 5px 0 0; }
+.heading-row, .dialog-title { display: flex; align-items: center; justify-content: space-between; gap: 18px; }.header-actions { display: flex; align-items: center; gap: 10px; }.scan-button { background: #e1ece4; color: #1b5138; border-radius: 20px; padding: 10px 13px; font-weight: 750; }
+.round-button { width: 48px; height: 48px; border-radius: 50%; font-size: 2rem; color: white; background: #1b5138; line-height: 1; }
+.empty-state { text-align: center; background: white; border-radius: 24px; padding: 45px 27px; margin-top: 46px; box-shadow: 0 8px 30px #1935230d; }
+.empty-state p, .hint { color: #637168; line-height: 1.5; }
+.empty-icon { color: #1b5138; font-size: 3rem; }
+.primary-button, .secondary-button, .danger-button { border-radius: 12px; padding: 13px 17px; font-weight: 750; }
+.primary-button { background: #1b5138; color: white; }
+.secondary-button { background: #e9eee9; color: #254333; }
+.danger-button { margin-top: 25px; color: #a32323; background: #fff0f0; width: 100%; }
+.card-list { display: grid; gap: 14px; margin-top: 34px; }
+.loyalty-card { border-radius: 20px; padding: 22px; min-height: 140px; color: white; display: flex; flex-direction: column; justify-content: space-between; text-align: left; box-shadow: 0 10px 22px #19352325; }
+.loyalty-card p { margin: 0; opacity: .82; font-size: .85rem; }.loyalty-card strong { font-size: 1.25rem; }.loyalty-card span { font-family: ui-monospace, monospace; letter-spacing: .08em; }
+dialog { border: 0; border-radius: 20px; width: min(calc(100% - 30px), 500px); padding: 0; box-shadow: 0 20px 60px #0005; }dialog::backdrop { background: #11291a80; }
+form, .barcode-view, .scanner-view { padding: 25px; }label { display: grid; gap: 7px; font-size: .88rem; font-weight: 750; margin-top: 20px; }input { border: 1px solid #c9d4cc; border-radius: 10px; padding: 12px; background: #fbfdfb; }.hint { font-size: .8rem; }.form-actions { display: flex; justify-content: end; gap: 9px; margin-top: 25px; }.icon-button { background: transparent; font-size: 2rem; line-height: 1; color: #587060; }.barcode-paper { margin-top: 30px; padding: 28px 12px 12px; background: white; border-radius: 12px; text-align: center; }.barcode-paper svg { width: 100%; height: 105px; }.barcode-number { font-family: ui-monospace, monospace; text-align: center; letter-spacing: .1em; color: #53645a; }.camera-frame { position: relative; overflow: hidden; border-radius: 14px; background: #18251d; aspect-ratio: 4 / 3; margin: 18px 0; }.camera-frame video { width: 100%; height: 100%; object-fit: cover; }.scan-line { position: absolute; left: 8%; right: 8%; top: 50%; height: 2px; background: #78ed9c; box-shadow: 0 0 12px #78ed9c; }.full-button { width: 100%; }
+@media (max-width: 420px) { .app-shell { padding-top: 26px; } }
