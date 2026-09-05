@@ -7,7 +7,8 @@
     <title>ONECARD</title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="style.css" />
-    <script defer src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <script defer src="zxing-browser-0.1.5.min.js"></script>
+    <script defer src="bwip-js-4.7.0.min.js"></script>
     <script defer src="app.js"></script>
   </head>
   <body>
@@ -30,6 +31,7 @@
         <button id="add-first-card" class="primary-button">Dodaj pierwszą kartę</button>
       </section>
 
+      <p id="app-status" class="hint" role="status"></p>
       <section id="card-list" class="card-list" aria-label="Twoje karty"></section>
     </main>
 
@@ -37,9 +39,11 @@
       <form id="card-form" method="dialog">
         <div class="dialog-title"><h2 id="dialog-heading">Dodaj kartę</h2><button type="button" class="icon-button" id="close-dialog" aria-label="Zamknij">×</button></div>
         <label>Nazwa sklepu<input id="store-name" name="store-name" required maxlength="40" placeholder="np. Rossmann" /></label>
-        <label>Numer karty<input id="card-number" name="card-number" required maxlength="60" placeholder="np. 5901234123457" inputmode="numeric" /></label>
+        <label>Numer karty<input id="card-number" name="card-number" required maxlength="2048" placeholder="np. 5901234123457" autocapitalize="off" spellcheck="false" /></label>
+        <label>Format kodu<select id="card-format" name="card-format"></select></label>
         <label>Kolor karty<input id="card-color" name="card-color" type="color" value="#276749" /></label>
-        <p class="hint">Wersja MVP tworzy kod Code 128. Zeskanowanie zależy od tego, jaki format obsługuje program danego sklepu.</p>
+        <p class="hint">Skanowanie rozpoznaje format automatycznie. Przy ręcznym dodawaniu wybierz format z oryginalnej karty.</p>
+        <p id="form-error" class="error" role="alert"></p>
         <div class="form-actions"><button type="button" id="cancel" class="secondary-button">Anuluj</button><button class="primary-button" value="default">Zapisz kartę</button></div>
       </form>
     </dialog>
@@ -47,8 +51,9 @@
     <dialog id="barcode-dialog">
       <div class="barcode-view">
         <div class="dialog-title"><div><p id="barcode-store" class="eyebrow"></p><h2>Twoja karta</h2></div><button type="button" class="icon-button" id="close-barcode" aria-label="Zamknij">×</button></div>
-        <div class="barcode-paper"><svg id="barcode"></svg></div>
+        <div class="barcode-paper"><div id="barcode" role="img" aria-label="Kod karty do zeskanowania"></div></div>
         <p id="barcode-number" class="barcode-number"></p>
+        <p id="barcode-format" class="hint"></p><p class="hint">Zwiększ jasność ekranu. Długi kod pokaż po obróceniu telefonu poziomo.</p><p id="barcode-error" class="error" role="alert"></p>
         <button id="delete-card" class="danger-button">Usuń tę kartę</button>
       </div>
     </dialog>

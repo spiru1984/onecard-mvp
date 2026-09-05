@@ -23,3 +23,17 @@ h2 { margin: 0; font-size: 1.25rem; letter-spacing: -.03em; }
 dialog { border: 0; border-radius: 20px; width: min(calc(100% - 30px), 500px); padding: 0; box-shadow: 0 20px 60px #0005; }dialog::backdrop { background: #11291a80; }
 form, .barcode-view, .scanner-view { padding: 25px; }label { display: grid; gap: 7px; font-size: .88rem; font-weight: 750; margin-top: 20px; }input { border: 1px solid #c9d4cc; border-radius: 10px; padding: 12px; background: #fbfdfb; }.hint { font-size: .8rem; }.form-actions { display: flex; justify-content: end; gap: 9px; margin-top: 25px; }.icon-button { background: transparent; font-size: 2rem; line-height: 1; color: #587060; }.barcode-paper { margin-top: 30px; padding: 28px 12px 12px; background: white; border-radius: 12px; text-align: center; }.barcode-paper svg { width: 100%; height: 105px; }.barcode-number { font-family: ui-monospace, monospace; text-align: center; letter-spacing: .1em; color: #53645a; }.camera-frame { position: relative; overflow: hidden; border-radius: 14px; background: #18251d; aspect-ratio: 4 / 3; margin: 18px 0; }.camera-frame video { width: 100%; height: 100%; object-fit: cover; }.scan-line { position: absolute; left: 8%; right: 8%; top: 50%; height: 2px; background: #78ed9c; box-shadow: 0 0 12px #78ed9c; }.full-button { width: 100%; }
 @media (max-width: 420px) { .app-shell { padding-top: 26px; } }
+[hidden] { display: none !important; }
+select { font: inherit; width: 100%; border: 1px solid #c9d4cc; border-radius: 10px; padding: 12px; background: #fbfdfb; }
+.error { color: #a32323; line-height: 1.5; }
+.error:empty { display: none; }
+dialog { max-height: calc(100dvh - 30px); overflow-y: auto; }
+#barcode-dialog { width: min(calc(100% - 20px), 900px); }
+.barcode-paper { padding: 8px; overflow-x: auto; }
+.barcode-paper svg { display: block; width: 100%; height: auto; min-height: 120px; }
+#barcode.square-code { max-width: 340px; margin: auto; }
+#barcode.square-code svg { min-height: 0; }
+.barcode-number, .loyalty-card span { overflow-wrap: anywhere; }
+#barcode-format { text-align: center; }
+button:focus-visible { outline: 3px solid #367e50; outline-offset: 3px; }
+@media (max-width: 380px) { .heading-row { gap: 8px; } h1 { font-size: 2rem; } .header-actions { gap: 6px; } .scan-button { padding: 10px; } form, .barcode-view, .scanner-view { padding: 18px; } }

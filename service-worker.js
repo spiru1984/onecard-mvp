@@ -1,4 +1,16 @@
-const CACHE = 'onecard-v2';
-const ASSETS = ['./', './index.html', './style.css', './app.js', './manifest.webmanifest'];
-self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS))));
-self.addEventListener('fetch', event => event.respondWith(caches.match(event.request).then(hit => hit || fetch(event.request))));
+const CACHE = 'onecard-v3';
+const ASSETS = ['./', './index.html', './style.css', './app.js', './manifest.webmanifest', './zxing-browser-0.1.5.min.js', './bwip-js-4.7.0.min.js'];
+self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
+self.addEventListener('activate', event => event.waitUntil((async () => {
+ for (const key of await caches.keys()) if (key.startsWith('onecard-') && key !== CACHE) await caches.delete(key);
+ await self.clients.claim();
+})()));
+self.addEventListener('fetch', event => {
+ if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;
+ event.respondWith((async () => {
+  const cache = await caches.open(CACHE), hit = await cache.match(event.request);
+  if (hit) return hit;
+  try { return await fetch(event.request); }
+  catch (error) { if (event.request.mode === 'navigate') return cache.match('./index.html'); throw error; }
+ })());
+});
