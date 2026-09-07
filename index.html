@@ -80,16 +80,20 @@
         <div class="dialog-title"><h2 id="account-heading">Twoje konto ONECARD</h2><button type="button" id="close-account" class="icon-button" aria-label="Zamknij konto">×</button></div>
         <p id="account-unavailable" class="hint" hidden>Logowanie e-mailem i SMS-em jest przygotowane, ale jeszcze nieuruchomione. Na razie korzystaj z kart i importu na tym urządzeniu.</p>
         <form id="account-login">
-          <p class="hint">Zaloguj się lub utwórz konto kodem z wiadomości. Karty zapisane na koncie będą synchronizowane między urządzeniami.</p>
+          <p class="hint">Zaloguj się hasłem lub utwórz nowe konto. Karty zapisane na koncie będą synchronizowane między urządzeniami.</p>
+          <label>Chcę<select id="auth-action"><option value="login">Zalogować się</option><option value="signup">Utworzyć konto</option><option value="recover">Ustawić / odzyskać hasło</option></select></label>
           <label>Sposób logowania<select id="login-method"><option value="email">E-mail</option><option value="sms">SMS</option></select></label>
           <label>E-mail lub numer telefonu<input id="login-contact" type="email" autocomplete="email" placeholder="twoj@email.pl" required maxlength="254" /></label>
+          <label id="password-label">Hasło<input id="login-password" type="password" autocomplete="current-password" required maxlength="128" /></label>
+          <p id="auth-help" class="hint">Przy rejestracji potwierdzisz adres tylko raz. Masz konto bez hasła? Wybierz „Ustawić / odzyskać hasło”.</p>
           <p class="hint">E-mail zostanie przekazany do Supabase, a kod dostarczy poczta ONECARD przez Gmail. SMS jest jeszcze w przygotowaniu. Zdjęcia kart pozostają na telefonie.</p>
-          <button id="send-login-code" class="primary-button full-button" type="submit">Wyślij kod</button>
+          <button id="send-login-code" class="primary-button full-button" type="submit">Zaloguj się</button>
         </form>
         <form id="account-code-form" hidden>
           <label>Kod z wiadomości<input id="login-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" minlength="6" maxlength="10" required /></label>
           <button id="verify-login-code" class="primary-button full-button" type="submit">Potwierdź kod</button>
         </form>
+        <form id="password-form" hidden><label>Nowe hasło (minimum 8 znaków)<input id="new-password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required /></label><label>Powtórz nowe hasło<input id="repeat-password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required /></label><button class="primary-button full-button" id="save-password" type="submit">Zapisz hasło</button></form>
         <div id="account-signed-in" hidden>
           <p id="account-identity" class="hint"></p>
           <button id="sync-cards" class="primary-button full-button">Synchronizuj karty</button>
@@ -97,6 +101,7 @@
           <button id="import-local-cards" class="secondary-button full-button">Skopiuj lokalne karty na konto</button>
           <button id="link-identity" class="secondary-button full-button">Dodaj drugi sposób logowania</button>
           <p class="hint">SMS będzie dostępny po uruchomieniu usługi. Karty pozostają w pamięci urządzenia po wylogowaniu; wrócą po ponownym zalogowaniu na to samo konto.</p>
+          <button id="change-password" class="secondary-button full-button">Ustaw / zmień hasło</button>
           <button id="sign-out" class="secondary-button full-button">Wyloguj</button>
         </div>
         <p id="account-status" class="hint" role="status"></p>

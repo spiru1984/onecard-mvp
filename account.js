@@ -5,7 +5,7 @@
  const smsEnabled = config.smsEnabled !== false;
  if (!smsEnabled) {
   $('#login-method').querySelector('[value="sms"]').disabled = true;
-  $('#login-method').querySelector('[value="sms"]').textContent = 'SMS — w przygotowaniu';
+  $('#login-method').querySelector('[value="sms"]').textContent = 'Telefon — w przygotowaniu';
  }
  let client, user = null, generation = 0, running = false, request = null, cooldown = 0;
  const guestKey = 'onecard-cards-v1';
@@ -48,6 +48,8 @@
   const next = session?.user || null;
   if (next?.id === user?.id) { user = next; showUser(); return; }
   generation++; user = next; request = null;
+  if (!user) { $('#auth-action').value = 'login'; authMode(); }
+  $('#password-form').hidden = true; $('#login-password').value = ''; $('#new-password').value = ''; $('#repeat-password').value = '';
   if (user) localStorage.setItem(localHiddenKey,'1'); $('#account-code-form').hidden = true;
   window.onecardPersist = user ? persist : null;
   switchCardProfile(user ? accountKey(user.id) : (localStorage.getItem(localHiddenKey) === '1' ? null : guestKey)); showUser();
@@ -137,22 +139,57 @@
  $('#link-identity').onclick = () => {
   $('#account-login').hidden = false; $('#login-method').value = user.email ? 'sms' : 'email';
   $('#login-method').onchange(); $('#login-contact').value = '';
+  $('#auth-action').value = 'recover'; authMode();
   say('Potwierdź drugi sposób logowania, aby e-mail i telefon prowadziły do tego samego konta.');
  };
+ function authMode() {
+  const action = $('#auth-action').value;
+  $('#password-label').hidden = action === 'recover';
+  $('#login-password').required = action !== 'recover';
+  $('#login-password').minLength = action === 'signup' ? 8 : 1;
+  $('#login-password').autocomplete = action === 'signup' ? 'new-password' : 'current-password';
+  $('#login-password').value = ''; request = null; $('#account-code-form').hidden = true;
+  $('#send-login-code').textContent = action === 'signup' ? 'Utwórz konto' : action === 'recover' ? 'Wyślij kod do ustawienia hasła' : 'Zaloguj się';
+ }
+ $('#auth-action').onchange = authMode;
+ $('#change-password').onclick = () => { $('#password-form').hidden = false; $('#new-password').focus(); };
+ $('#password-form').addEventListener('submit',async event => {
+  event.preventDefault(); if (!user) return;
+  const password = $('#new-password').value, button = $('#save-password');
+  if (password.length < 8 || password !== $('#repeat-password').value) { say('Hasła muszą być identyczne i mieć minimum 8 znaków.'); return; }
+  button.disabled = true;
+  try {
+   const {error} = await client.auth.updateUser({password});
+   if (error) throw Error('Nie udało się zapisać hasła. Spróbuj ponownie lub wybierz inne hasło.');
+   $('#new-password').value = ''; $('#repeat-password').value = ''; $('#password-form').hidden = true;
+   say('Hasło zapisane. Następnym razem zalogujesz się adresem e-mail lub telefonem i hasłem.');
+  } catch (error) { say(error.message); } finally { button.disabled = false; }
+ });
  $('#account-login').addEventListener('submit',async event => {
-  event.preventDefault(); const button = $('#send-login-code');
-  if (Date.now() < cooldown) { say('Poczekaj minutę przed ponownym wysłaniem kodu.'); return; }
+  event.preventDefault(); const button = $('#send-login-code'), action = $('#auth-action').value;
   if (!navigator.onLine) { say('Logowanie wymaga internetu.'); return; }
   button.disabled = true;
   try {
-   const contact = identity();
-   if (user && ((contact.email && user.email) || (contact.phone && user.phone))) throw Error('Ten sposób logowania jest już dodany do konta.');
-   const linking = Boolean(user);
-   const {error} = linking ? await client.auth.updateUser(contact) : await client.auth.signInWithOtp({...contact,options:{shouldCreateUser:true}});
-   if (error) throw Error('Nie udało się wysłać kodu. Sprawdź dane lub spróbuj później.');
-   request = {contact,linking}; cooldown = Date.now()+60000;
+   const contact = identity(), linking = Boolean(user);
+   if (action === 'login' && !linking) {
+    const {data,error} = await client.auth.signInWithPassword({...contact,password:$('#login-password').value});
+    if (error) throw Error('Nie udało się zalogować. Sprawdź dane i potwierdzenie konta. Jeśli nie masz hasła, wybierz „Ustawić / odzyskać hasło”.');
+    applySession(data.session); $('#login-password').value = ''; return;
+   }
+   if (Date.now() < cooldown) throw Error('Poczekaj minutę przed ponownym wysłaniem kodu.');
+   let result;
+   if (linking) result = await client.auth.updateUser(contact);
+   else if (action === 'signup') {
+    const password = $('#login-password').value;
+    if (password.length < 8) throw Error('Hasło musi mieć minimum 8 znaków.');
+    result = await client.auth.signUp({...contact,password});
+   } else result = await client.auth.signInWithOtp({...contact,options:{shouldCreateUser:false}});
+   if (result.error) throw Error('Nie udało się wysłać potwierdzenia. Sprawdź dane lub spróbuj później.');
+   $('#login-password').value = '';
+   if (result.data?.session) { applySession(result.data.session); return; }
+   request = {contact,linking,action}; cooldown = Date.now()+60000;
    $('#account-code-form').hidden = false; $('#login-code').value = ''; $('#login-code').focus();
-   say('Kod został wysłany. Wpisz go poniżej, aby zalogować się. Do potwierdzenia pozostajesz w obecnym portfelu.');
+   say(action === 'recover' ? 'Jeśli konto istnieje, otrzymasz kod. Potwierdź go, aby ustawić hasło.' : 'Wpisz kod z wiadomości, aby potwierdzić konto. Kolejne logowania będą hasłem.');
   } catch (error) { say(error.message); }
   finally { button.disabled = false; }
  });
@@ -162,13 +199,14 @@
   if (!/^\d{6,10}$/.test(token)) { say('Wpisz kod z wiadomości.'); return; }
   button.disabled = true;
   try {
-   const {contact,linking} = request;
+   const {contact,linking,action} = request;
    const type = contact.phone ? (linking ? 'phone_change' : 'sms') : (linking ? 'email_change' : 'email');
    const {data,error} = await client.auth.verifyOtp({...contact,token,type});
    if (error) throw Error('Kod jest nieprawidłowy lub wygasł. Spróbuj ponownie.');
    if (data.session) applySession(data.session);
    request = null; $('#account-code-form').hidden = true; $('#account-login').hidden = Boolean(user);
-   say('Potwierdzono logowanie.'); void sync();
+   say('Potwierdzono konto.'); void sync();
+   if (action === 'recover') { $('#password-form').hidden = false; $('#new-password').focus(); }
   } catch (error) { say(error.message); }
   finally { button.disabled = false; }
  });

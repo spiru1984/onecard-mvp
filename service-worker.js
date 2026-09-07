@@ -1,4 +1,4 @@
-const CACHE = 'onecard-v6';
+const CACHE = 'onecard-v7';
 const ASSETS = ['./', './index.html', './style.css', './app.js', './import.js', './account.js', './config.js', './supabase-2.115.0.js', './manifest.webmanifest', './zxing-browser-0.1.5.min.js', './bwip-js-4.7.0.min.js'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil((async () => {
