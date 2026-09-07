@@ -21,12 +21,17 @@
         <div class="account-row"><p class="eyebrow">TWÓJ PORTFEL LOJALNOŚCIOWY</p><button id="account-button" class="scan-button">Konto</button></div>
         <div class="heading-row">
           <div>
-            <h1>ONECARD</h1>
+            <h1 class="brand-name"><svg class="brand-symbol" viewBox="0 0 40 36" aria-hidden="true"><rect x="3" y="4" width="28" height="21" rx="5" transform="rotate(-12 17 14)" fill="#b6d5be"/><rect x="10" y="12" width="28" height="21" rx="5" fill="#1b5138"/><path d="M15 19h18M16 26h6" stroke="#e7f2e9" stroke-width="2" stroke-linecap="round"/></svg>ONECARD</h1>
             <p id="card-count" class="muted">Jeszcze nie masz żadnych kart</p>
           </div>
           <div class="header-actions"><button id="scan-card" class="scan-button">⌁ Skanuj</button><button id="add-card" class="round-button" aria-label="Dodaj kartę">+</button></div>
         </div>
       </header>
+      <section class="wallet-intro" aria-label="ONECARD — portfel na karty różnych sklepów">
+        <div class="wallet-copy"><p class="wallet-kicker">MNIEJ W PORTFELU</p><h2>Wiele kart.<br />Jeden ONECARD.</h2><p>Twoje ulubione sklepy.<br />Zawsze pod ręką.</p></div>
+        <img class="wallet-art" src="onecard-wallet.svg" width="500" height="360" alt="Zielony portfel ONECARD mieści przykładowe karty Lidl, Carrefour, Rossmann, Biedronka i TOPAZ." />
+        <p class="wallet-caption">Przykładowe karty sklepów</p>
+      </section>
       <div class="import-actions"><button id="import-card" class="secondary-button">Importuj zdjęcie / zrzut ekranu</button><input id="card-photo" type="file" accept="image/*" hidden /></div>
       <p class="hint">Z innej aplikacji: otwórz kartę, zrób zrzut ekranu i wybierz go tutaj. Zdjęcie odczytujemy wyłącznie na tym urządzeniu.</p>
       <p id="import-status" class="hint" role="status"></p>

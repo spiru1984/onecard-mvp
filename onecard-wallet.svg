@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="360" viewBox="0 0 500 360" fill="none">
+  <defs>
+    <!-- Wallet Gradients -->
+    <linearGradient id="walletBack" x1="250" y1="140" x2="250" y2="330" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f3422"/>
+      <stop offset="100%" stop-color="#0a2417"/>
+    </linearGradient>
+    <linearGradient id="walletFront" x1="90" y1="165" x2="410" y2="335" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2a7753"/>
+      <stop offset="45%" stop-color="#1b5439"/>
+      <stop offset="100%" stop-color="#113926"/>
+    </linearGradient>
+    <linearGradient id="walletHighlight" x1="250" y1="165" x2="250" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a3e3bc" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#a3e3bc" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Card Gradients & Shading -->
+    <linearGradient id="lidlGrad" x1="0" y1="0" x2="160" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF36D"/>
+      <stop offset="100%" stop-color="#FED100"/>
+    </linearGradient>
+    <linearGradient id="rossGrad" x1="0" y1="0" x2="160" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E52332"/>
+      <stop offset="100%" stop-color="#B80E1C"/>
+    </linearGradient>
+    <linearGradient id="biedGrad" x1="0" y1="0" x2="160" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF885"/>
+      <stop offset="100%" stop-color="#F7CE00"/>
+    </linearGradient>
+    <linearGradient id="carrGrad" x1="0" y1="0" x2="160" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F2F5F8"/>
+    </linearGradient>
+    <linearGradient id="topazGrad" x1="0" y1="0" x2="160" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFBF24"/>
+      <stop offset="100%" stop-color="#EB9200"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="160" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Soft Drop Shadows -->
+    <filter id="groundGlow" x="40" y="300" width="420" height="60" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0a2216" flood-opacity="0.22"/>
+    </filter>
+    <filter id="walletShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#091e13" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Ground Shadow -->
+  <ellipse cx="250" cy="332" rx="175" ry="14" fill="#0c2e1e" opacity="0.2" filter="url(#groundGlow)"/>
+  <ellipse cx="250" cy="330" rx="150" ry="8" fill="#091d13" opacity="0.3"/>
+
+  <!-- Wallet Back Lining -->
+  <rect x="76" y="146" width="348" height="175" rx="22" fill="url(#walletBack)"/>
+  <rect x="77" y="147" width="346" height="173" rx="21" stroke="#22593d" stroke-width="1.5" fill="none"/>
+
+  <!-- ==================== FANNING CARDS ==================== -->
+  
+  <!-- 1. Center Back Card: Biedronka (peeking at top center) -->
+  <g transform="translate(170 32) rotate(1 80 55)" filter="url(#cardShadow)">
+    <rect width="160" height="110" rx="14" fill="url(#biedGrad)"/>
+    <rect width="160" height="110" rx="14" fill="url(#sheen)"/>
+    <rect x="0.75" y="0.75" width="158.5" height="108.5" rx="13.25" stroke="#DDA800" stroke-width="1.5" fill="none"/>
+    <!-- Ladybug badge / dot -->
+    <circle cx="42" cy="40" r="16" fill="#E21828"/>
+    <circle cx="37" cy="36" r="3" fill="#1A1A1A"/>
+    <circle cx="45" cy="34" r="2.5" fill="#1A1A1A"/>
+    <circle cx="43" cy="44" r="3.2" fill="#1A1A1A"/>
+    <circle cx="47" cy="31" r="5" fill="#1A1A1A"/>
+    <text x="64" y="47" fill="#C91424" font-family="Arial, 'Helvetica Neue', sans-serif" font-weight="900" font-size="20" letter-spacing="-0.5">Biedronka</text>
+    <rect x="18" y="70" width="124" height="2" rx="1" fill="#E5B200" opacity="0.6"/>
+  </g>
+
+  <!-- 2. Left Card: Lidl (angled -16 deg) -->
+  <g transform="translate(48 58) rotate(-16 80 55)" filter="url(#cardShadow)">
+    <rect width="160" height="110" rx="14" fill="url(#lidlGrad)"/>
+    <rect width="160" height="110" rx="14" fill="url(#sheen)"/>
+    <rect x="0.75" y="0.75" width="158.5" height="108.5" rx="13.25" stroke="#0050AA" stroke-width="1.5" stroke-opacity="0.3" fill="none"/>
+    <!-- Lidl Logo emblem -->
+    <circle cx="40" cy="42" r="18" fill="#FED100" stroke="#0050AA" stroke-width="3"/>
+    <circle cx="40" cy="42" r="16.5" fill="none" stroke="#E2001A" stroke-width="1.5"/>
+    <text x="40" y="49" fill="#0050AA" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="16">Lidl</text>
+    <!-- Card Text -->
+    <text x="66" y="49" fill="#0050AA" font-family="Arial, sans-serif" font-weight="900" font-size="24" letter-spacing="-0.5">Lidl</text>
+    <rect x="114" y="32" width="34" height="18" rx="4" fill="#0050AA"/>
+    <text x="131" y="45" fill="#FFF" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="10">Plus</text>
+    <rect x="18" y="74" width="124" height="2" rx="1" fill="#0050AA" opacity="0.15"/>
+  </g>
+
+  <!-- 3. Left-Center Card: Rossmann (angled -6 deg) -->
+  <g transform="translate(104 78) rotate(-6 80 55)" filter="url(#cardShadow)">
+    <rect width="160" height="110" rx="14" fill="url(#rossGrad)"/>
+    <rect width="160" height="110" rx="14" fill="url(#sheen)"/>
+    <rect x="0.75" y="0.75" width="158.5" height="108.5" rx="13.25" stroke="#FFFFFF" stroke-opacity="0.3" stroke-width="1.5" fill="none"/>
+    <!-- Centaur icon hint -->
+    <circle cx="34" cy="40" r="14" fill="#FFFFFF" fill-opacity="0.2"/>
+    <path d="M30 46 C30 38 38 34 38 34 C38 34 36 40 34 46 Z" fill="#FFFFFF"/>
+    <!-- Rossmann text -->
+    <text x="54" y="47" fill="#FFFFFF" font-family="Arial, sans-serif" font-weight="800" font-size="22" letter-spacing="-0.3">Rossmann</text>
+    <rect x="16" y="70" width="128" height="2" rx="1" fill="#FFFFFF" opacity="0.25"/>
+  </g>
+
+  <!-- 4. Right-Center Card: Carrefour (angled +7 deg) -->
+  <g transform="translate(236 72) rotate(7 80 55)" filter="url(#cardShadow)">
+    <rect width="160" height="110" rx="14" fill="url(#carrGrad)"/>
+    <rect width="160" height="110" rx="14" fill="url(#sheen)"/>
+    <rect x="0.75" y="0.75" width="158.5" height="108.5" rx="13.25" stroke="#D1D9E0" stroke-width="1.5" fill="none"/>
+    <!-- Carrefour Logo Symbol -->
+    <path d="M22 34 C25 29 33 29 36 34 C33 39 25 39 22 34 Z" fill="#E21B23"/>
+    <path d="M38 34 C41 29 49 29 52 34 C49 39 41 39 38 34 Z" fill="#0A529C"/>
+    <!-- Carrefour Text -->
+    <text x="60" y="47" fill="#0A529C" font-family="Arial, sans-serif" font-weight="800" font-size="20" letter-spacing="-0.3">Carrefour</text>
+    <rect x="18" y="70" width="124" height="2" rx="1" fill="#0A529C" opacity="0.15"/>
+  </g>
+
+  <!-- 5. Right Card: TOPAZ (angled +17 deg) -->
+  <g transform="translate(294 62) rotate(17 80 55)" filter="url(#cardShadow)">
+    <rect width="160" height="110" rx="14" fill="url(#topazGrad)"/>
+    <rect width="160" height="110" rx="14" fill="url(#sheen)"/>
+    <rect x="0.75" y="0.75" width="158.5" height="108.5" rx="13.25" stroke="#0B5D34" stroke-width="1.5" stroke-opacity="0.35" fill="none"/>
+    <!-- Emerald accent strip -->
+    <rect x="14" y="24" width="6" height="32" rx="3" fill="#0B5D34"/>
+    <!-- TOPAZ text -->
+    <text x="28" y="48" fill="#0B5D34" font-family="Arial, sans-serif" font-weight="900" font-size="24" letter-spacing="0.5">TOPAZ</text>
+    <rect x="16" y="72" width="128" height="2" rx="1" fill="#0B5D34" opacity="0.2"/>
+  </g>
+
+  <!-- ==================== FRONT WALLET POCKET ==================== -->
+  <g filter="url(#walletShadow)">
+    <!-- Wallet Front Body with Gentle Scoop Opening -->
+    <path d="M 72 176 C 145 160 355 160 428 176 C 435 178 440 184 440 192 L 440 312 C 440 325 430 335 417 335 L 83 335 C 70 335 60 325 60 312 L 60 192 C 60 184 65 178 72 176 Z" fill="url(#walletFront)"/>
+    
+    <!-- Top Rim Highlight -->
+    <path d="M 72 176 C 145 160 355 160 428 176" stroke="url(#walletHighlight)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M 61 192 L 61 312 C 61 324 71 334 83 334 L 417 334 C 429 334 439 324 439 312 L 439 192" stroke="#90d6ac" stroke-opacity="0.18" stroke-width="1.5" fill="none"/>
+
+    <!-- Tailored Stitching Line -->
+    <path d="M 76 185 C 146 170 354 170 424 185 C 429 186 432 191 432 196 L 432 308 C 432 318 424 326 414 326 L 86 326 C 76 326 68 318 68 308 L 68 196 C 68 191 71 186 76 185 Z" fill="none" stroke="#7ad09d" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.5"/>
+
+    <!-- Subtle Pocket Curve Accent -->
+    <path d="M 330 176 C 315 240 340 290 410 325" stroke="#a2e4be" stroke-opacity="0.08" stroke-width="18" fill="none"/>
+
+    <!-- Branding: Stacked Cards Symbol -->
+    <g transform="translate(94 212)">
+      <rect x="0" y="3" width="32" height="23" rx="5" transform="rotate(-12 16 14)" fill="#68af89" stroke="#d5f2e1" stroke-width="1.5"/>
+      <rect x="8" y="10" width="32" height="23" rx="5" fill="#1b5439" stroke="#d5f2e1" stroke-width="1.5"/>
+      <path d="M 14 18 L 34 18 M 14 25 L 24 25" stroke="#d5f2e1" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Branding: Title & Subtitle -->
+    <text x="146" y="235" fill="#FFFFFF" font-family="Arial, 'Helvetica Neue', sans-serif" font-weight="900" font-size="34" letter-spacing="-1">ONECARD</text>
+    <text x="148" y="258" fill="#B2E2C5" font-family="Arial, 'Helvetica Neue', sans-serif" font-weight="700" font-size="11" letter-spacing="2.8">TWÓJ PORTFEL KART</text>
+
+    <!-- Verified Badge / Security Shield -->
+    <g transform="translate(378 226)">
+      <circle cx="16" cy="16" r="18" fill="#a2e4be" fill-opacity="0.14"/>
+      <circle cx="16" cy="16" r="14" fill="#256b4a" stroke="#a2e4be" stroke-width="1.5"/>
+      <path d="M 11 16 L 15 20 L 22 12" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- Ambient Sparkles -->
+  <path d="M 456 94 v 14 m -7 -7 h 14" stroke="#70b38c" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 36 128 v 10 m -5 -5 h 10" stroke="#70b38c" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="470" cy="130" r="2.5" fill="#88c8a1" opacity="0.6"/>
+  <circle cx="30" cy="95" r="2" fill="#88c8a1" opacity="0.5"/>
+</svg>

@@ -46,3 +46,15 @@ button:disabled { cursor: wait; opacity: .65; }
 .account-view form { padding: 0; }
 .account-view .full-button { margin-top: 14px; }
 #account-identity { overflow-wrap: anywhere; }
+.brand-name { display: flex; align-items: center; gap: 7px; font-size: 2rem; }
+.brand-symbol { width: 35px; height: 34px; flex: none; }
+.header-actions { flex-shrink: 0; } .header-actions .scan-button { white-space: nowrap; }
+@media (max-width: 380px) { .heading-row { flex-wrap: wrap; } .header-actions { margin-left: auto; } }
+.wallet-intro { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: center; min-height: 216px; margin-top: 24px; padding: 25px 22px 31px; border: 1px solid #dce8dd; border-radius: 23px; background: radial-gradient(ellipse at 80% 30%, #fdfcf1, transparent 65%), #eaf1e8; }
+.wallet-copy { position: relative; z-index: 1; width: 47%; }
+.wallet-kicker { margin: 0 0 12px; color: #52705f; font-size: .57rem; font-weight: 800; letter-spacing: .13em; }
+.wallet-copy h2 { font-size: clamp(1.15rem, 4.4vw, 1.65rem); line-height: 1.17; letter-spacing: -.05em; color: #1b5138; }
+.wallet-copy > p:last-child { font-size: .72rem; line-height: 1.5; color: #52705f; margin: 12px 0 0; }
+.wallet-art { position: absolute; width: 62%; height: auto; right: -2%; top: 50%; transform: translateY(-50%); }
+.wallet-caption { position: absolute; right: 18px; bottom: 8px; margin: 0; color: #657b69; font-size: .55rem; }
+@media (max-width: 380px) { .brand-name { font-size: 1.7rem; gap: 4px; } .brand-symbol { width: 29px; } .wallet-intro { min-height: 183px; padding: 20px 14px 26px; } .wallet-copy h2 { font-size: 1.1rem; } .wallet-copy > p:last-child { font-size: .65rem; } .wallet-kicker { font-size: .5rem; } }
