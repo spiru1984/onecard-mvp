@@ -1,6 +1,6 @@
 # Uruchomienie logowania i synchronizacji
 
-Stan: przygotowane do podłączenia. Konta Supabase/Twilio, baza i wysyłka NIE zostały jeszcze uruchomione. Puste `config.js` celowo wyłącza formularze logowania. Import zdjęć i portfel lokalny działają niezależnie. Budżet testu: maksymalnie 100 zł łącznie; bez zakupu domeny i znaku towarowego.
+Stan 7 września 2026: logowanie e-mailem i synchronizacja podłączone do Supabase (Free, Irlandia). SMTP Gmail i polskie kody rejestracji/logowania sprawdzone. SMS pozostaje wyłączony (smsEnabled: false), Twilio jeszcze niepodłączone. Budżet testu: maksymalnie 100 zł; nie dokonano zakupów.
 
 ## Konfiguracja właściciela
 
@@ -14,7 +14,7 @@ Stan: przygotowane do podłączenia. Konta Supabase/Twilio, baza i wysyłka NIE 
 
 ## Konta i dane
 
-- E-mail i SMS są dostępne od początku po uruchomieniu usług. Pierwsze potwierdzone logowanie tworzy konto.
+- Obecnie dostępny jest e-mail. SMS wymaga uruchomienia Twilio i zmiany smsEnabled. Pierwsze potwierdzone logowanie tworzy konto.
 - Aby używać obu metod na JEDNYM koncie, zaloguj się pierwszą metodą, kliknij „Dodaj telefon/e-mail do tego konta” i potwierdź drugi kontakt. Oddzielna rejestracja e-mailem i telefonem tworzy dwa konta. Aplikacja nie scala kont samowolnie.
 - Dotychczasowe karty gościa pozostają w `onecard-cards-v1`. Po zalogowaniu używamy osobnego obszaru pamięci według identyfikatora konta. Przycisk kopiowania kart świadomie przesyła ich kody do chmury. Zdjęcia nigdy nie są przesyłane.
 - Zapis karty i kolejki synchronizacji jest jedną operacją localStorage. Usuwanie zapisuje znacznik usunięcia, żeby inne urządzenie nie przywracało skasowanej karty. Dane serwera są łączone z niezakończonymi lokalnymi operacjami. Przy konflikcie tego samego rekordu wygrywa ostatni zapis przyjęty przez serwer; obecny interfejs nie edytuje istniejących kart.
@@ -29,3 +29,8 @@ Stan: przygotowane do podłączenia. Konta Supabase/Twilio, baza i wysyłka NIE 
 - Sprawdzić koszty, ograniczenia wysyłki i informację o przetwarzaniu danych przed zaproszeniem testerów.
 
 Źródła: https://supabase.com/docs/guides/auth/auth-email-passwordless , https://supabase.com/docs/guides/auth/phone-login?showSmsProvider=Twilio , https://supabase.com/docs/guides/auth/auth-smtp , https://supabase.com/docs/guides/database/postgres/row-level-security .
+
+## Weryfikacja 7 września 2026
+
+Testy lokalne kodów, aparatu, importu zdjęć i offline przeszły. Prawdziwy kod e-mail zweryfikowano w interfejsie. Dwa izolowane konteksty przeglądarki z sesją tego samego konta potwierdziły synchronizację i zapis offline po powrocie internetu; wylogowanie ukryło karty konta. Test SQL na dwóch tymczasowych użytkownikach z rolą authenticated potwierdził izolację odczytu, blokadę zapisu cudzych kart i odmowę odczytu anon; cała transakcja została wycofana. Nie jest to test dwóch fizycznych telefonów. Dwie oznaczone karty testowe pozostały na koncie ONECARD.
+

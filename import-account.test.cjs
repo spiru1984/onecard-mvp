@@ -5,7 +5,7 @@ const assert=require('node:assert/strict');
  const context=await browser.newContext({viewport:{width:390,height:844}}), page=await context.newPage();
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('http://127.0.0.1:4173');await page.evaluate(()=>navigator.serviceWorker.ready);await page.reload();
- await page.click('#account-button');assert.equal(await page.locator('#account-login').isVisible(),false);assert.match(await page.locator('#account-unavailable').innerText(),/nieuruchomione/);await page.click('#close-account');console.log('PASS unconfigured authentication clearly disabled');
+ await page.click('#account-button');assert.equal(await page.locator('#account-login').isVisible(),true);assert.equal(await page.locator('#login-method option[value=sms]').evaluate(el=>el.disabled),true);await page.click('#close-account');console.log('PASS email login enabled, unconfigured SMS disabled');
  const files=await page.evaluate(async()=>{
   const out={};
   for(const [name,format,number,rotated] of [['qr','QR_CODE','00123456789',false],['barcode','EAN_13','5901234123457',true]]){
@@ -57,3 +57,5 @@ const assert=require('node:assert/strict');
  await auth.reload();await auth.click('#account-button');await auth.selectOption('#login-method','sms');await auth.fill('#login-contact','+48 987 654 321');await auth.click('#send-login-code');await auth.fill('#login-code','123456');await auth.click('#verify-login-code');await auth.waitForFunction(()=>!document.querySelector('#account-signed-in').hidden);assert.equal(otpRequests.at(-1).phone,'+48987654321');assert.equal(verifyRequests.at(-1).type,'sms');assert.equal(await auth.locator('.loyalty-card').count(),0);console.log('PASS SMS OTP and separate-account isolation');
  await authContext.close();await browser.close();console.log('IMPORT AND ACCOUNT TESTS PASSED (provider HTTP mocked; live delivery/RLS require configured project)');
 })().catch(e=>{console.error(e);process.exit(1)});
+
+

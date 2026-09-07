@@ -82,7 +82,7 @@
           <p class="hint">Zaloguj się lub utwórz konto kodem z wiadomości. Karty zapisane na koncie będą synchronizowane między urządzeniami.</p>
           <label>Sposób logowania<select id="login-method"><option value="email">E-mail</option><option value="sms">SMS</option></select></label>
           <label>E-mail lub numer telefonu<input id="login-contact" type="email" autocomplete="email" placeholder="twoj@email.pl" required maxlength="254" /></label>
-          <p class="hint">Kontakt zostanie przekazany do usługi logowania Supabase, a przy SMS także do Twilio, aby dostarczyć kod. Zdjęcia kart pozostają na telefonie.</p>
+          <p class="hint">E-mail zostanie przekazany do Supabase, a kod dostarczy poczta ONECARD przez Gmail. SMS jest jeszcze w przygotowaniu. Zdjęcia kart pozostają na telefonie.</p>
           <button id="send-login-code" class="primary-button full-button" type="submit">Wyślij kod</button>
         </form>
         <form id="account-code-form" hidden>
@@ -95,7 +95,7 @@
           <p class="hint">Karty dodawane po zalogowaniu zapisujemy na Twoim koncie i na tym urządzeniu. Karty z trybu lokalnego możesz skopiować poniżej.</p>
           <button id="import-local-cards" class="secondary-button full-button">Skopiuj lokalne karty na konto</button>
           <button id="link-identity" class="secondary-button full-button">Dodaj drugi sposób logowania</button>
-          <p class="hint">Dodaj drugi sposób logowania tutaj, aby telefon i e-mail otwierały to samo konto. Karty pozostają w pamięci urządzenia po wylogowaniu; wrócą po ponownym zalogowaniu na to samo konto.</p>
+          <p class="hint">SMS będzie dostępny po uruchomieniu usługi. Karty pozostają w pamięci urządzenia po wylogowaniu; wrócą po ponownym zalogowaniu na to samo konto.</p>
           <button id="sign-out" class="secondary-button full-button">Wyloguj</button>
         </div>
         <p id="account-status" class="hint" role="status"></p>
@@ -103,3 +103,4 @@
     </dialog>
   </body>
 </html>
+

@@ -2,6 +2,11 @@
 (() => {
  const dialog = $('#account-dialog'), status = $('#account-status');
  const config = window.ONECARD_CONFIG || {};
+ const smsEnabled = config.smsEnabled !== false;
+ if (!smsEnabled) {
+  $('#login-method').querySelector('[value="sms"]').disabled = true;
+  $('#login-method').querySelector('[value="sms"]').textContent = 'SMS — w przygotowaniu';
+ }
  let client, user = null, generation = 0, running = false, request = null, cooldown = 0;
  const guestKey = 'onecard-cards-v1';
  const accountKey = id => `onecard-account-${id}`;
@@ -36,7 +41,7 @@
   $('#account-login').hidden = Boolean(user); $('#account-signed-in').hidden = !user;
   $('#account-button').textContent = user ? 'Moje konto' : 'Konto';
   $('#account-identity').textContent = user ? [user.email,user.phone ? '+'+user.phone.replace(/^\+/,'') : ''].filter(Boolean).join(' · ') : '';
-  $('#link-identity').hidden = !user || Boolean(user.email && user.phone);
+  $('#link-identity').hidden = !user || Boolean(user.email && user.phone) || (!smsEnabled && Boolean(user.email));
   if (user) $('#link-identity').textContent = user.email ? 'Dodaj telefon do tego konta' : 'Dodaj e-mail do tego konta';
  }
  function applySession(session) {
@@ -115,6 +120,7 @@
  function identity() {
   const method = $('#login-method').value, value = $('#login-contact').value.trim();
   if (method === 'sms') {
+   if (!smsEnabled) throw Error('Logowanie SMS jest jeszcze w przygotowaniu. Wybierz e-mail.');
    const phone = value.replace(/[\s()-]/g,'');
    if (!/^\+[1-9]\d{7,14}$/.test(phone)) throw Error('Podaj telefon z kodem kraju, np. +48 123 456 789.');
    return {phone};
