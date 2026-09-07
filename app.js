@@ -1,5 +1,7 @@
 'use strict';
+const localHiddenKey = 'onecard-local-hidden';
 let storageKey = 'onecard-cards-v1';
+try { if (localStorage.getItem(localHiddenKey) === '1') storageKey = null; } catch (_) {}
 const $ = s => document.querySelector(s);
 const form = $('#card-form'), cardDialog = $('#card-dialog'), barcodeDialog = $('#barcode-dialog'), scanDialog = $('#scan-dialog');
 // ZXing BarcodeFormat values. Store both the exact payload and its symbology.
@@ -13,6 +15,7 @@ const formats = {
 let selectedId = null, cameraStream = null, scanTimer = null, scanSession = 0, storageHealthy = true, items = [];
 function message(text) { $('#app-status').textContent = text; }
 function loadCards() {
+ if (!storageKey) { items = []; return; }
  try {
   const raw = JSON.parse(localStorage.getItem(storageKey) || '[]');
   const stored = Array.isArray(raw) ? raw : raw.cards;
@@ -21,6 +24,7 @@ function loadCards() {
  } catch (_) { storageHealthy = false; message('Nie można odczytać zapisanych kart. Dane pozostają nietknięte. Sprawdź ustawienia pamięci przeglądarki.'); }
 }
 function saveCards(next) {
+ if (!storageKey) throw Error('Zaloguj się lub wybierz Portfel lokalny.');
  if (!storageHealthy) throw Error('Pamięć kart jest niedostępna. Nie nadpisano danych.');
  try { if (window.onecardPersist) window.onecardPersist(next); else localStorage.setItem(storageKey, JSON.stringify(next)); }
  catch (_) { throw Error('Nie udało się zapisać karty. Zwolnij miejsce lub zezwól na zapis danych w przeglądarce.'); }
@@ -28,6 +32,11 @@ function saveCards(next) {
  window.dispatchEvent(new Event('onecard-saved'));
 }
 function render() {
+ const locked = !storageKey;
+ $('#local-wallet').hidden = !locked;
+ for (const id of ['add-card','scan-card','import-card','add-first-card']) $('#'+id).disabled = locked;
+ $('#empty-description').textContent = locked ? 'Zaloguj się, aby zobaczyć karty konta, lub wybierz Portfel lokalny, aby otworzyć karty tego urządzenia.' : (storageKey === 'onecard-cards-v1' ? 'Dodaj pierwszą kartę. Zapiszemy ją lokalnie na tym urządzeniu.' : 'To portfel Twojego konta. Dodaj kartę lub świadomie skopiuj karty lokalne w ustawieniach konta.');
+ if (locked) message('Wylogowano — karty urządzenia są ukryte.');
  $('#empty-state').hidden = items.length !== 0; $('#card-list').replaceChildren();
  for (const card of items) {
   const button = document.createElement('button'); button.className = 'loyalty-card'; button.dataset.id = card.id;
@@ -43,6 +52,7 @@ function barcodeSVG(number,format) {
  return bwipjs.toSVG({bcid:formats[format].bcid,text:number,scale:3,...(formats[format].square ? {} : {height:22}),padding:12,backgroundcolor:'FFFFFF',barcolor:'000000',includetext:false});
 }
 function openAdd(number = '',format = 'CODE_128') {
+ if (!storageKey) return;
  form.reset(); $('#form-error').textContent = ''; $('#card-number').value = number; $('#card-format').value = format;
  cardDialog.showModal(); $('#store-name').focus();
 }
@@ -124,3 +134,8 @@ function switchCardProfile(key) {
  stopScanner(); scanDialog.close(); cardDialog.close(); barcodeDialog.close();
  storageKey = key; items = []; storageHealthy = true; loadCards(); render();
 }
+
+$('#local-wallet').onclick = () => {
+ try { localStorage.removeItem(localHiddenKey); } catch (_) { message('Nie można otworzyć portfela lokalnego.'); return; }
+ switchCardProfile('onecard-cards-v1'); message('Portfel lokalny — karty tego urządzenia, bez synchronizacji.');
+};

@@ -47,9 +47,10 @@
  function applySession(session) {
   const next = session?.user || null;
   if (next?.id === user?.id) { user = next; showUser(); return; }
-  generation++; user = next; request = null; $('#account-code-form').hidden = true;
+  generation++; user = next; request = null;
+  if (user) localStorage.setItem(localHiddenKey,'1'); $('#account-code-form').hidden = true;
   window.onecardPersist = user ? persist : null;
-  switchCardProfile(user ? accountKey(user.id) : guestKey); showUser();
+  switchCardProfile(user ? accountKey(user.id) : (localStorage.getItem(localHiddenKey) === '1' ? null : guestKey)); showUser();
   say(user ? 'Zalogowano. Pobieram karty…' : 'Tryb lokalny — bez synchronizacji.');
   if (user) void sync();
  }
@@ -151,7 +152,7 @@
    if (error) throw Error('Nie udało się wysłać kodu. Sprawdź dane lub spróbuj później.');
    request = {contact,linking}; cooldown = Date.now()+60000;
    $('#account-code-form').hidden = false; $('#login-code').value = ''; $('#login-code').focus();
-   say('Kod został wysłany. Wpisz go poniżej.');
+   say('Kod został wysłany. Wpisz go poniżej, aby zalogować się. Do potwierdzenia pozostajesz w obecnym portfelu.');
   } catch (error) { say(error.message); }
   finally { button.disabled = false; }
  });
