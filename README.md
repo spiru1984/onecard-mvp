@@ -1,10 +1,22 @@
 # ONECARD
 
+[Otwórz działającą aplikację](https://spiru1984.github.io/onecard-mvp/)
+
+![Wizja ONECARD: karty lojalnościowe w jednej aplikacji](onecard-app.webp)
+
+Grafika przedstawia wizję produktu i przykładowe karty, nie listę oficjalnych partnerów ani gwarantowanych integracji. Rzeczywisty interfejs może się różnić od makiety.
+
+## Karta pobliskiego sklepu
+
+Przycisk **Znajdź sklep w pobliżu** pobiera lokalizację dopiero na żądanie i za zgodą użytkownika. Przybliżone współrzędne (zaokrąglone do 3 miejsc po przecinku) trafiają do Overpass API, które zwraca sklepy OpenStreetMap. Kody kart i dane konta nie są wysyłane. Nie zapisujemy historii lokalizacji ani wyników wyszukiwania.
+
+Aplikacja proponuje zapisane karty pasujące nazwą do sklepów w promieniu około 300 m. Użytkownik wybiera właściwą kartę i otwiera jej oryginalny kod. Sugestie wygasają po dwóch minutach, zmianie portfela lub opuszczeniu aplikacji. Wyszukiwanie wymaga internetu; dokładność GPS i kompletność danych sklepowych są ograniczone. Nie ma śledzenia w tle ani automatycznego potwierdzania, że użytkownik znajduje się w konkretnym sklepie. Dane: [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright).
+
 Prosty portfel kart lojalnościowych. Otwórz aplikację przez HTTPS, wybierz **Skanuj**, zezwól na aparat, zeskanuj cały kod i podaj nazwę sklepu. Zapisana karta zachowuje treść oraz format kodu. Można też dodać kartę ręcznie.
 
 Obsługiwane formaty: Code 128, Code 39, EAN-13, EAN-8, UPC-A, QR, Data Matrix, Aztec i PDF417. Stare karty bez pola `format` pozostają w Code 128. Kody dynamiczne nie odświeżają się — dla takich kart używaj aplikacji sklepu.
 
-Po komunikacie „Gotowe offline” można ponownie otwierać aplikację i dodawać lub pokazywać karty bez internetu. Dane są przechowywane wyłącznie w localStorage tej przeglądarki. Usunięcie danych witryny usuwa karty; nie ma synchronizacji ani kopii w chmurze. Zwiększ jasność ekranu przy kasie, a długi kod pokaż poziomo.
+Po przygotowaniu aplikacji offline można ponownie otwierać aplikację i dodawać lub pokazywać zapisane karty bez internetu. Portfel lokalny pozostaje w tej przeglądarce. Po zalogowaniu e-mailem i hasłem karty konta synchronizują się przez Supabase; zmiany offline czekają na połączenie. Rejestracja wymaga potwierdzenia adresu, a istniejące konto bez hasła może ustawić je w ustawieniach konta. SMS jest jeszcze wyłączony. Usunięcie danych witryny usuwa karty lokalne i niezsychronizowane zmiany. Zwiększ jasność ekranu przy kasie, a długi kod pokaż poziomo.
 
 ## Rozwój i testowanie
 

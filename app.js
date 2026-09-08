@@ -46,6 +46,7 @@ function render() {
   top.append(label,name); button.append(top,number); $('#card-list').append(button);
  }
  $('#card-count').textContent = items.length ? `${items.length} kart/y w portfelu` : 'Jeszcze nie masz żadnych kart';
+ window.dispatchEvent(new Event('onecard-rendered'));
 }
 function barcodeSVG(number,format) {
  if (!formats[format] || !number || number.length > 2048) throw Error('Nieprawidłowy kod.');

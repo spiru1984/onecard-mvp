@@ -46,6 +46,16 @@ button:disabled { cursor: wait; opacity: .65; }
 .account-view form { padding: 0; }
 .account-view .full-button { margin-top: 14px; }
 #account-identity { overflow-wrap: anywhere; }
+.nearby-panel { margin-top: 20px; padding: 20px; background: #fff; border: 1px solid #dce5e8; border-radius: 20px; }
+.nearby-panel a { color: #285470; }
+.nearby-panel .full-button + .full-button { margin-top: 8px; }
+.nearby-card { width: 100%; display: grid; gap: 6px; padding: 15px; margin-top: 10px; text-align: left; border-radius: 12px; background: #eaf3fb; color: #123650; }
+.nearby-card span { font-size: .8rem; overflow-wrap: anywhere; }
+.app-vision { margin-top: 24px; overflow: hidden; border-radius: 20px; background: #081627; color: #e4f0ff; box-shadow: 0 10px 30px #10273c18; }
+.app-vision summary { cursor: pointer; padding: 16px 18px; font-weight: 750; font-size: .9rem; }
+.app-vision img { display: block; width: 100%; height: auto; }
+.app-vision p { margin: 0; padding: 12px 18px; font-size: .73rem; line-height: 1.5; color: #b6cadd; }
+.app-vision a:focus-visible, .app-vision summary:focus-visible { outline: 3px solid #76b8ff; outline-offset: -3px; }
 .brand-name { display: flex; align-items: center; gap: 7px; font-size: 2rem; }
 .brand-symbol { width: 35px; height: 34px; flex: none; }
 .header-actions { flex-shrink: 0; } .header-actions .scan-button { white-space: nowrap; }

@@ -14,6 +14,7 @@
     <script defer src="app.js"></script>
     <script defer src="import.js"></script>
     <script defer src="account.js"></script>
+    <script defer src="nearby.js"></script>
   </head>
   <body>
     <main class="app-shell">
@@ -27,10 +28,20 @@
           <div class="header-actions"><button id="scan-card" class="scan-button">⌁ Skanuj</button><button id="add-card" class="round-button" aria-label="Dodaj kartę">+</button></div>
         </div>
       </header>
-      <section class="wallet-intro" aria-label="ONECARD — portfel na karty różnych sklepów">
-        <div class="wallet-copy"><p class="wallet-kicker">MNIEJ W PORTFELU</p><h2>Wiele kart.<br />Jeden ONECARD.</h2><p>Twoje ulubione sklepy.<br />Zawsze pod ręką.</p></div>
-        <img class="wallet-art" src="onecard-wallet.svg" width="500" height="360" alt="Zielony portfel ONECARD mieści przykładowe karty Lidl, Carrefour, Rossmann, Biedronka i TOPAZ." />
-        <p class="wallet-caption">Przykładowe karty sklepów</p>
+      <details class="app-vision" open>
+        <summary>Twoje karty. W jednej aplikacji.</summary>
+        <a href="onecard-app.webp" target="_blank" rel="noopener" aria-label="Powiększ grafikę ONECARD"><img src="onecard-app.webp" width="1774" height="887" alt="Wizja aplikacji ONECARD na telefonie z sugestią karty pobliskiego sklepu. Wokół przykładowe karty różnych sieci." /></a>
+        <p>Wizja aplikacji — przykładowe karty i ekran. Dotknij grafiki, aby ją powiększyć.</p>
+      </details>
+      <section class="nearby-panel" aria-labelledby="nearby-title">
+        <h2 id="nearby-title">Twoja karta w pobliżu</h2>
+        <p class="hint">Znajdź pobliski sklep i pokaż pasującą kartę ze swojego portfela.</p>
+        <p class="hint">Po kliknięciu i zgodzie na lokalizację wyślemy przybliżone współrzędne do Overpass API (overpass-api.de). Nie wysyłamy kodów kart ani nie zapisujemy historii lokalizacji.</p>
+        <button id="find-nearby" class="primary-button full-button">Znajdź sklep w pobliżu</button>
+        <button id="cancel-nearby" class="secondary-button full-button" hidden>Anuluj wyszukiwanie</button>
+        <p id="nearby-status" class="hint" role="status"></p>
+        <div id="nearby-results"></div>
+        <p class="hint">Wymaga internetu. To sugestia — lokalizacja i lista sklepów mogą być niedokładne. Dane: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>.</p>
       </section>
       <div class="import-actions"><button id="import-card" class="secondary-button">Importuj zdjęcie / zrzut ekranu</button><input id="card-photo" type="file" accept="image/*" hidden /></div>
       <p class="hint">Z innej aplikacji: otwórz kartę, zrób zrzut ekranu i wybierz go tutaj. Zdjęcie odczytujemy wyłącznie na tym urządzeniu.</p>
