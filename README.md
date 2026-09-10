@@ -2,6 +2,8 @@
 
 [Otwórz działającą aplikację](https://spiru1984.github.io/onecard-mvp/)
 
+[Pokaz bez rejestracji i propozycja pilotażu](demo.html) — trzy fikcyjne karty; bez odczytu prywatnego portfela, konta i lokalizacji.
+
 ![Wizja ONECARD: karty lojalnościowe w jednej aplikacji](onecard-app.webp)
 
 Grafika przedstawia wizję produktu i przykładowe karty, nie listę oficjalnych partnerów ani gwarantowanych integracji. Rzeczywisty interfejs może się różnić od makiety.
@@ -40,6 +42,6 @@ Wybierz **Importuj zdjęcie / zrzut ekranu** i wskaż obraz karty zapisany na te
 
 Import przenosi kod, a nie konto sklepu: nie pobiera kuponów, salda punktów, paragonów ani zmieniających się kodów. ONECARD nie odczytuje prywatnej zawartości innych aplikacji. Na iPhonie użyj zrzutu ekranu karty i selektora zdjęć w ONECARD.
 
-Logowanie kodem z e-maila lub SMS-a oraz synchronizacja zostały przygotowane do podłączenia usług Supabase/Twilio. Obecnie `config.js` jest puste, więc interfejs jasno informuje, że logowanie nie jest uruchomione. Szczegóły konfiguracji i ograniczeń testu: [ACCOUNT-SETUP.md](ACCOUNT-SETUP.md). Biblioteka @supabase/supabase-js 2.115.0 jest dołączona lokalnie (licencja MIT w SUPABASE-LICENSE).
+Logowanie e-mailem i hasłem oraz synchronizacja kart są podłączone do Supabase. Kod e-mail służy do potwierdzenia rejestracji lub odzyskania dostępu. SMS pozostaje wyłączony do czasu konfiguracji dostawcy. Szczegóły konfiguracji i ograniczeń testu: [ACCOUNT-SETUP.md](ACCOUNT-SETUP.md). Biblioteka @supabase/supabase-js 2.115.0 jest dołączona lokalnie (licencja MIT w SUPABASE-LICENSE).
 
 `import-account.test.cjs` sprawdza zdjęcia QR i obrócone kody kreskowe, import offline, błędne pliki, logowanie e-mail/SMS i powiązanie metod, oddzielenie kont, świadomy import kart gościa, ponowienie synchronizacji oraz znaczniki usunięcia. Część kont używa prawdziwego SDK z symulowanymi odpowiedziami HTTP; nie wysyła SMS/e-maili i nie zastępuje testów RLS ani dostarczenia wiadomości na prawdziwym projekcie.
